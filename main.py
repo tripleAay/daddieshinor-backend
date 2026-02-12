@@ -18,6 +18,8 @@ app.add_middleware(
         "http://localhost:3001",
         "https://daddieshinor.com",
         "https://www.daddieshinor.com",
+        "https://daddieshinor-backend-prod.vercel.app"
+        "https://daddieshinor-backend-prod-git-main-aaytriples-projects.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
