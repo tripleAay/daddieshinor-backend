@@ -18,7 +18,7 @@ app.add_middleware(
         "http://localhost:3001",
         "https://daddieshinor.com",
         "https://www.daddieshinor.com",
-        "https://daddieshinor-backend-prod.vercel.app"
+        "https://daddieshinor-backend-prod.vercel.app",
         "https://daddieshinor-backend-prod-git-main-aaytriples-projects.vercel.app",
     ],
     allow_credentials=True,
@@ -34,7 +34,7 @@ def get_db():
     finally:
         db.close()
 
-# ✅ Subscribe with JSON
+# Subscribe
 @app.post("/subscribe", response_model=schemas.SubscriberResponse)
 def subscribe(subscriber: schemas.SubscriberCreate, db: Session = Depends(get_db)):
     existing = db.query(models.Subscriber).filter(
@@ -42,7 +42,6 @@ def subscribe(subscriber: schemas.SubscriberCreate, db: Session = Depends(get_db
     ).first()
 
     if existing:
-        # ✅ better status for "already exists"
         raise HTTPException(status_code=409, detail="Email already subscribed")
 
     new_subscriber = models.Subscriber(email=subscriber.email)
@@ -52,7 +51,7 @@ def subscribe(subscriber: schemas.SubscriberCreate, db: Session = Depends(get_db
 
     return new_subscriber
 
-# ✅ Admin: Get all subscribers
+# Admin endpoint
 @app.get("/subscribers", response_model=list[schemas.SubscriberResponse])
 def get_subscribers(db: Session = Depends(get_db)):
     return db.query(models.Subscriber).order_by(
